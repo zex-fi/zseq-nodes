@@ -1,0 +1,6 @@
+.env
+*.json
+*.yaml
+!metadata.json
+!operator.yaml
+!docker-compose.yaml
