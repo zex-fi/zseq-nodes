@@ -1,5 +1,6 @@
 operator:
-    address: 0x86dCAa39330C6a1a27273928Bb5877Bdf6240502
+    address: 0xb99F2b6B30fA1ed6ec2E1049Bb6d6fd86Bb64dab
+    earnings_receiver_address: 0xb99F2b6B30fA1ed6ec2E1049Bb6d6fd86Bb64dab
     delegation_approver_address: "0x0000000000000000000000000000000000000000"
     staker_opt_out_window_blocks: 0
     metadata_url: "https://raw.githubusercontent.com/zex-fi/zseq-nodes/refs/heads/master/node3/metadata.json"
