@@ -84,6 +84,79 @@ def register(
     click.echo("Operator registered successfully!")
 
 
+@cli.command()
+@click.option(
+    "--rpc-node",
+    required=True,
+    help="RPC Url",
+)
+@click.option(
+    "--registry-coordinator",
+    required=True,
+    help="registry coordinator contract address",
+)
+@click.option(
+    "--operator-state-retriever",
+    required=True,
+    help="operator state retriever contract address",
+)
+@click.option(
+    "--ecdsa-key-file",
+    required=True,
+    help="Path to the ECDSA key file.",
+    type=click.Path(exists=True),
+)
+@click.option(
+    "--ecdsa-key-password",
+    required=True,
+    help="Password for the ECDSA key file.",
+)
+@click.option("--sequencer-new-socket", required=True, help="IP:Port of the operator.")
+def update(
+    rpc_node,
+    registry_coordinator,
+    operator_state_retriever,
+    ecdsa_key_file,
+    ecdsa_key_password,
+    sequencer_new_socket,
+):
+    """Update an operator's socket address."""
+
+    # Load ECDSA private key
+    with open(ecdsa_key_file) as f:
+        encrypted_json = json.loads(f.read())
+    ecdsa_private_key = Account.decrypt(encrypted_json, ecdsa_key_password)
+
+    # Register the operator
+    update_socket(
+        rpc_node,
+        registry_coordinator,
+        operator_state_retriever,
+        ecdsa_private_key,
+        sequencer_new_socket,
+    )
+    click.echo("Operator registered successfully!")
+
+
+def update_socket(
+    rpc_node,
+    registry_coordinator,
+    operator_state_retriever,
+    ecdsa_private_key,
+    sequencer_new_socket,
+):
+    config = BuildAllConfig(
+        eth_http_url=rpc_node,
+        registry_coordinator_addr=registry_coordinator,
+        operator_state_retriever_addr=operator_state_retriever,
+    )
+
+    clients = build_all(config, ecdsa_private_key)
+    clients.avs_registry_writer.update_socket(
+        socket=sequencer_new_socket,
+    )
+
+
 def register_operator(
     rpc_node,
     registry_coordinator,

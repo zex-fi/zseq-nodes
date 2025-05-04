@@ -1,15 +1,15 @@
 services:
-  zsequencer1:
-    container_name: zsequencer-node1
+  zsequencer:
+    container_name: zsequencer-node
     image: zellular/zsequencer:latest
     ports:
       - "6001:6001"
     volumes:
-      - "./node1/bls_key1.json:/app/bls_key.json"
-      - "./node1/ecdsa_key1.json:/app/ecdsa_key.json"
-      - db1:/db
-      - "./node1/apps.json:/app/apps.json"
-      - "./node1/nodes.json:/app/nodes.json"
+      - "./node/bls_key.json:/app/bls_key.json"
+      - "./node/ecdsa_key.json:/app/ecdsa_key.json"
+      - db:/db
+      - "./node/apps.json:/app/apps.json"
+      - "./node/nodes.json:/app/nodes.json"
     environment:
       - ZSEQUENCER_BLS_KEY_FILE=/app/bls_key.json
       - ZSEQUENCER_ECDSA_KEY_FILE=/app/ecdsa_key.json
@@ -17,63 +17,7 @@ services:
       - ZSEQUENCER_APPS_FILE=/app/apps.json
       - ZSEQUENCER_NODES_FILE=/app/nodes.json
     env_file:
-      - node1/.env
-    networks:
-      - zex
-
-  zsequencer2:
-    container_name: zsequencer-node2
-    image: zellular/zsequencer:latest
-    ports:
-      - "6002:6001"
-    volumes:
-      - "./node2/bls_key2.json:/app/bls_key.json"
-      - "./node2/ecdsa_key2.json:/app/ecdsa_key.json"
-      - db2:/db
-      - "./node2/apps.json:/app/apps.json"
-      - "./node2/nodes.json:/app/nodes.json"
-    environment:
-      - ZSEQUENCER_BLS_KEY_FILE=/app/bls_key.json
-      - ZSEQUENCER_ECDSA_KEY_FILE=/app/ecdsa_key.json
-      - ZSEQUENCER_SNAPSHOT_PATH=/db
-      - ZSEQUENCER_APPS_FILE=/app/apps.json
-      - ZSEQUENCER_NODES_FILE=/app/nodes.json
-    env_file:
-      - node2/.env
-    networks:
-      - zex
-    depends_on:
-      - zsequencer1
-
-  zsequencer3:
-    container_name: zsequencer-node3
-    image: zellular/zsequencer:latest
-    ports:
-      - "6003:6001"
-    volumes:
-      - "./node3/bls_key3.json:/app/bls_key.json"
-      - "./node3/ecdsa_key3.json:/app/ecdsa_key.json"
-      - db3:/db
-      - "./node3/apps.json:/app/apps.json"
-      - "./node3/nodes.json:/app/nodes.json"
-    environment:
-      - ZSEQUENCER_BLS_KEY_FILE=/app/bls_key.json
-      - ZSEQUENCER_ECDSA_KEY_FILE=/app/ecdsa_key.json
-      - ZSEQUENCER_SNAPSHOT_PATH=/db
-      - ZSEQUENCER_APPS_FILE=/app/apps.json
-      - ZSEQUENCER_NODES_FILE=/app/nodes.json
-    env_file:
-      - node3/.env
-    networks:
-      - zex
-    depends_on:
-      - zsequencer1
+      - node/.env
 
 volumes:
-  db1:
-  db2:
-  db3:
-
-networks:
-  zex:
-    name: zex
+  db:

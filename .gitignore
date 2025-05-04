@@ -4,3 +4,4 @@
 !metadata.json
 !operator.yaml
 !docker-compose.yaml
+!docker-compose-local.yaml
