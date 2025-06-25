@@ -1,4 +1,26 @@
 services:
+  zsequencer-cora:
+    container_name: zsequencer-cora
+    image: zellular/zsequencer:latest
+    ports:
+      - "6000:6001"
+    volumes:
+      - "./node-cora/bls_key-cora.json:/app/bls_key.json"
+      - "./node-cora/ecdsa_key-cora.json:/app/ecdsa_key.json"
+      - db-cora:/db
+      - "./node-cora/apps.json:/app/apps.json"
+      - "./node-cora/nodes.json:/app/nodes.json"
+    environment:
+      - ZSEQUENCER_BLS_KEY_FILE=/app/bls_key.json
+      - ZSEQUENCER_ECDSA_KEY_FILE=/app/ecdsa_key.json
+      - ZSEQUENCER_SNAPSHOT_PATH=/db
+      - ZSEQUENCER_APPS_FILE=/app/apps.json
+      - ZSEQUENCER_NODES_FILE=/app/nodes.json
+    env_file:
+      - node-cora/.env
+    networks:
+      - zex
+
   zsequencer1:
     container_name: zsequencer-node1
     image: zellular/zsequencer:latest
@@ -70,6 +92,7 @@ services:
       - zsequencer1
 
 volumes:
+  db-cora:
   db1:
   db2:
   db3:
